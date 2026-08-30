@@ -1,9 +1,32 @@
 import fs from 'node:fs';
-
-const currentEnv = fs.readFileSync("./.env", "utf-8")
-
-if(!currentEnv){
-    throw new Error("File .env not found")
+type EnvFileResult = {
+    exists: boolean;
+    keys: Map<string, string>;
 }
+export function CheckinEnvExist(filePath: string): EnvFileResult {
+    if (!fs.existsSync(filePath)) {
+        return {
+            exists: false,
+            keys: new Map()
+        }
+    }
+    const currentEnv: string[] = fs.readFileSync(filePath, "utf-8").trim().split(/\r?\n/)
 
-console.log(currentEnv)
+    const mapString = new Map()
+
+    currentEnv.forEach((env) => {
+        const firstEqual = env.indexOf("=")
+        if (firstEqual === -1) {
+            return
+        }
+        mapString.set(env.slice(0, firstEqual).trim(), env.slice(firstEqual + 1).trim())
+    })
+
+    return {
+        exists: true,
+        keys: mapString
+    }
+
+
+
+}
