@@ -1,11 +1,12 @@
+import path from "node:path"
 import { Project, SyntaxKind } from "ts-morph"
 
 
-export function scanner() {
+export function scanner(baseDir:string) {
     const project = new Project()
     const sourceFiles = project.addSourceFilesAtPaths([
-        "**/*.{ts,tsx,js,jsx}",
-        "!**/node_modules/**"
+        path.join(baseDir, "**/*.{ts,tsx,js,jsx}"),
+       "!" + path.join(baseDir, "**/node_modules/**")
     ])
     const envs = new Set<string>()
 
