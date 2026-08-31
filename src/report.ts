@@ -1,11 +1,11 @@
-import { CheckinEnvExist } from "./envFile.js";
+import { readEnvFile } from "./envFile.js";
 import { scanner } from "./scanner.js";
 import path from "node:path";
 
 
 export function report(baseDir: string = process.cwd()){
     const envPath = path.join(baseDir, ".env");
-    const dotenvExist = CheckinEnvExist(envPath)
+    const dotenvExist = readEnvFile(envPath)
 
     if(!dotenvExist.exists){
         console.log(".ENV NOT FOUND")

@@ -1,7 +1,0 @@
-{
-  "path": ".",
-  "envPath": ".env",
-  "strict": false,
-  "json": false,
-  "runOnStart": false
-}

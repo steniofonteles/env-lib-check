@@ -3,7 +3,7 @@ type EnvFileResult = {
     exists: boolean;
     keys: Map<string, string>;
 }
-export function CheckinEnvExist(filePath: string): EnvFileResult {
+export function readEnvFile(filePath: string): EnvFileResult {
     if (!fs.existsSync(filePath)) {
         return {
             exists: false,
