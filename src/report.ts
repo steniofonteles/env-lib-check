@@ -1,6 +1,7 @@
 import { readEnvFile } from "./envFile.js";
 import { scanner } from "./scanner.js";
 import path from "node:path";
+import { consoleCheckout } from "./terminalConfig.js";
 
 
 export function report(baseDir: string = process.cwd()){
@@ -12,18 +13,19 @@ export function report(baseDir: string = process.cwd()){
     }
 
     const allEnvs = scanner(baseDir)
-
+    const envs = [] as { env: string, status: "ok" | "warn" | "error" }[]
     allEnvs.forEach((env) =>{
         const setInDotEnv = dotenvExist.keys.get(env)
         if(setInDotEnv === ""){
-            console.log(`${env} SET BUT BLANK ❌`)
+            envs.push({env: env, status:"warn"})
         }else if(!setInDotEnv){
-            console.log(`${env} NOT FOUND IN .ENV ❌`)
+             envs.push({env: env, status:"error"})
         }else{
-            console.log(`${env} CORRECT ✅`)
+             envs.push({env: env, status:"ok"})
         }
     })
 
+    consoleCheckout(envs,baseDir)
 
 
 }
