@@ -11,11 +11,11 @@ export function consoleCheckout(logs: { env: string, status: "ok" | "warn" | "er
 
     logs.forEach((log) => {
         if (log.status === "error") {
-            console.log(pc.red(`VARIABLE ${log.env} NOT FOUND`));
+            console.log(pc.red(`${log.env} NOT FOUND IN .ENV`));
         } else if (log.status === "warn") {
-            console.log(pc.yellow(`VARIABLE ${log.env} IS BLANK`));
+            console.log(pc.yellow(`${log.env} SET BUT BLANK`));
         } else {
-            console.log(pc.green(`VARIABLE ${log.env} OK ✅`));
+            console.log(pc.green(`${log.env} CORRECT ✅`));
         }
     })
     console.log("");
