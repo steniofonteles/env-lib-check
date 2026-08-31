@@ -10,7 +10,7 @@
     "build": "tsc"
   },
   "keywords": [],
-  "author": "",
+  "author": "Stênio Sousa Fonteles",
   "license": "ISC",
   "type": "module",
   "bin": {
