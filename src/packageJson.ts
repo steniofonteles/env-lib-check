@@ -7,7 +7,7 @@ export function editPackageJson(baseDir: string) {
     const packageJson = fs.readFileSync(path.join(baseDir, "package.json"), "utf-8")
     const currentPackageJson = JSON.parse(packageJson)
     if (!currentPackageJson.scripts) {
-        console.log(" SCRIPT START COMAND NOT FOUNT IN PACKAGE ❌")
+        console.log("SCRIPT START COMAND NOT FOUNT IN PACKAGE ❌")
         return
     }
     const startScript = currentPackageJson.scripts?.start
@@ -24,8 +24,6 @@ export function editPackageJson(baseDir: string) {
 
     fs.writeFileSync(path.join(baseDir, "package.json"), JSON.stringify(currentPackageJson, null, 2))
 }
-
-
 
 
 
