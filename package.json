@@ -4,9 +4,9 @@
   "description": "CLI that scans your codebase for process.env usage and warns about missing or empty environment variables before they become a production bug.",
   "main": "./dist/cli.js",
   "scripts": {
-     "test": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js",
+    "test": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js",
     "dev": "npx tsx watch ./src/cli.ts",
-    "start": "elc && node ./dist/cli.js",
+    "start": "node ./dist/cli.js",
     "build": "tsc",
     "prepublishOnly": "npm run build"
   },
