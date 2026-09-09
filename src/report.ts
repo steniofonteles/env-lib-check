@@ -14,6 +14,7 @@ export function report(baseDir: string = process.cwd()){
 
     const allEnvs = scanner(baseDir)
     const envs = [] as { env: string, status: "ok" | "warn" | "error" }[]
+    
     allEnvs.forEach((env) =>{
         const setInDotEnv = dotenvExist.keys.get(env)
         if(setInDotEnv === ""){
@@ -25,7 +26,5 @@ export function report(baseDir: string = process.cwd()){
         }
     })
 
-    consoleCheckout(envs,baseDir)
-
-
+    consoleCheckout(envs, baseDir)
 }
