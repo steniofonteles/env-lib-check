@@ -1,8 +1,52 @@
-import { describe, expect, test } from "@jest/globals";
+import {
+  describe,
+  expect,
+  it,
+  jest,
+  beforeEach,
+  afterEach,
+} from "@jest/globals";
+import fs from "node:fs";
+import { report } from "./report.js";
 
+describe("Report", () => {
+  let consoleSpy: jest.SpiedFunction<typeof console.log>;
+  process.env.TEST_ENV;
 
-describe("sum module", () => {
-  test("adds 1 + 2 to equal 3", () => {
-    expect(1 + 2).toBe(3);
+  beforeEach(() => {
+    consoleSpy = jest.spyOn(console, "log").mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    consoleSpy.mockRestore();
+  });
+
+  it("Should inform that .env file is not found", () => {
+    report();
+    expect(consoleSpy).toHaveBeenCalledWith(
+      expect.stringContaining(".ENV NOT FOUND"),
+    );
+  });
+
+  it("Should inform that TEST_ENV is correct", () => {
+    const fd = fs.openSync(".env", "w");
+    fs.fchmodSync(fd, 0o644);
+    fs.writeFileSync(".env", "TEST_ENV=correct_value");
+    report();
+    expect(consoleSpy).toHaveBeenCalledWith(
+      expect.stringContaining("TEST_ENV CORRECT ✅"),
+    );
+    fs.rmSync(".env");
+  });
+
+  it("Should inform that TEST_ENV is not found in .env", () => {
+    const fd = fs.openSync(".env", "w");
+    fs.fchmodSync(fd, 0o644);
+    fs.writeFileSync(".env", "TEST_ENVI=correct_value");
+    report();
+    expect(consoleSpy).toHaveBeenCalledWith(
+      expect.stringContaining("TEST_ENV NOT FOUND IN .ENV"),
+    );
+    fs.rmSync(".env");
   });
 });
