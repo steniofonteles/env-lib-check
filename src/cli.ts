@@ -33,13 +33,17 @@ program
     const runCreateDotEnv = await rl.question(
       `Create .env file if it doesn't exist? (y/n, default: n): `,
     );
+    const setVariablesNotFound = await rl.question(
+      `Set variables not found in .env file? (y/n, default: n): `,
+    );
 
 
     const config = configSchema.parse({
       path: pathAnswer || ".",
       envPath: envPathAnswer || ".env",
       runOnStart: isTrue(runOnStartAnswer) ? true : false || false,
-      createDotEnv: isTrue(runCreateDotEnv) ? true : false || false
+      createDotEnv: isTrue(runCreateDotEnv) ? true : false || false,
+      setVariablesNotFound: isTrue(setVariablesNotFound) ? true : false || false
     });
 
     if (fs.existsSync(configPath)) {

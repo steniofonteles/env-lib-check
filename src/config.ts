@@ -5,6 +5,7 @@ export const configSchema = z.object({
   envPath: z.string().default(".env"),
   runOnStart: z.boolean().default(false),
   createDotEnv: z.boolean().default(false),
+  setVariablesNotFound: z.boolean().default(false),
 }); 
 
 export type Config = z.infer<typeof configSchema>

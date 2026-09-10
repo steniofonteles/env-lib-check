@@ -1,6 +1,0 @@
-{
-  "path": ".",
-  "envPath": ".env",
-  "runOnStart": false,
-  "createDotEnv": true
-}

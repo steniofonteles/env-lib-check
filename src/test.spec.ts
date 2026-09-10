@@ -11,11 +11,6 @@ import { report } from "./report.js";
 
 describe("Report", () => {
   let consoleSpy: jest.SpiedFunction<typeof console.log>;
-  process.env.TEST_ENV;
-  process.env.TEST_ENV2;
-  process.env.TEST_ENV3;
-    process.env.TEST_ENV4;
-
 
   beforeEach(() => {
     consoleSpy = jest.spyOn(console, "log").mockImplementation(() => {});
