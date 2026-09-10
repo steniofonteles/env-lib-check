@@ -1,0 +1,7 @@
+{
+  "path": ".",
+  "envPath": ".env",
+  "runOnStart": false,
+  "createDotEnv": false,
+  "setVariablesNotFound": false
+}

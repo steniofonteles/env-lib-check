@@ -36,13 +36,31 @@ DATABASE_URL SET BUT BLANK ❌
 npx elc init
 ```
 
-Walks you through a few questions (project folder, path to your `.env` file, whether to run the check automatically) and writes an `env-lib-check.config.json` file. If you opt in to running on startup, it also adds `elc` to your `start` script in `package.json`, so a missing env var is caught before your app boots.
+
+
+
+## env-lib-check.config.json
+
+Walks you through a few questions (project folder, path to your `.env` file, whether to run the check automatically, if you want create .env file if it doesn't exist and set variables if not found in .env file) and writes an `env-lib-check.config.json` file. If you opt in to running on startup, it also adds `elc` to your `start` script in `package.json`, so a missing env var is caught before your app boots.
+
+{
+  "path": "." => path to project,
+  "envPath": ".env" => path to .env file,
+  "runOnStart": false => if you want run ever in start project,
+  "createDotEnv": false => if you want create .env if not found file,
+  "setVariablesNotFound": false => if you want set variables if found in project and not set in .env file 
+}
+
+
+
 
 ## How it works
 
 1. Reads your `.env` file and extracts every declared key.
 2. Walks your project's `.ts`/`.tsx`/`.js`/`.jsx` files (skipping `node_modules`) and extracts every `process.env.*` reference using a real AST parser (`ts-morph`), not regex — so it's accurate even with dynamic-looking code, and it catches your own code's env var usage, not just the ones known third-party libraries use.
 3. Cross-references the two lists and reports the result.
+
+
 
 ## Status
 
