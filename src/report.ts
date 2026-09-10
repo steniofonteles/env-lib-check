@@ -9,19 +9,12 @@ export async function report(baseDir: string = process.cwd()) {
   const dotenvExist = readEnvFile(envPath);
   const configPath = fs.existsSync(`./env-lib-check.config.json`);
 
-  if (!dotenvExist.exists) {
-    consoleCheckout([{ env: ".ENV NOT FOUND", status: "info" }], baseDir);
+  if (!dotenvExist.exists && !configPath) {
+    consoleCheckout([{ env: `.env NOT FOUND AND env-lib-check.config.json NOT FOUND ${"\n\n" }RUN ELC INIT FOR GENERATE CONFIG`, status: "info" }], baseDir);
     return;
   }
 
-  if (!configPath) {
-    consoleCheckout(
-      [{ env: `env-lib-check.config.json NOT FOUND ${"\n\n" }RUN ELC INIT FOR GENERATE CONFIG`, status: "info" }],
-      baseDir,
-    );
 
-    return;
-  }
 
   const allEnvs = scanner(baseDir);
   const envs = [] as {
