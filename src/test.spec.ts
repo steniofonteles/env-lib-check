@@ -11,11 +11,10 @@ import { report } from "./report.js";
 
 describe("Report", () => {
   let consoleSpy: jest.SpiedFunction<typeof console.log>;
-  process.env.TEST_ENV;
-  process.env.TEST_ENV2;
-  process.env.TEST_ENV3;
-    process.env.TEST_ENV4;
-
+  process.env.REDIS_URL;
+  process.env.MONGODB_URI;
+  process.env.DATABASE_URL;
+  process.env.JWT_SECRET;
 
   beforeEach(() => {
     consoleSpy = jest.spyOn(console, "log").mockImplementation(() => {});

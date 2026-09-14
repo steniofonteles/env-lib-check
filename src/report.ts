@@ -3,6 +3,7 @@ import { scanner } from "./scanner.js";
 import path from "node:path";
 import { consoleCheckout } from "./terminalConfig.js";
 import fs from "node:fs";
+import { resolveDefaults } from "./envsDefaults.js";
 
 export async function report(baseDir: string = process.cwd()) {
   const envPath = path.join(baseDir, ".env");
@@ -13,8 +14,6 @@ export async function report(baseDir: string = process.cwd()) {
     consoleCheckout([{ env: `.env NOT FOUND AND env-lib-check.config.json NOT FOUND ${"\n\n" }RUN ELC INIT FOR GENERATE CONFIG`, status: "info" }], baseDir);
     return;
   }
-
-
 
   const allEnvs = scanner(baseDir);
   const envs = [] as {
@@ -59,7 +58,7 @@ export async function report(baseDir: string = process.cwd()) {
       const missingEnvs = envs.filter((env) => !existingKeys.has(env.env));
       if (missingEnvs.length > 0) {
         const newEnvContent = missingEnvs
-          .map((env) => `${env.env}=`)
+          .map((env) => `${env.env}=${resolveDefaults(env.env) || ""}`)
           .join("\n");
         consoleCheckout(
           [
