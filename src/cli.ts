@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 import { Command } from "commander";
 import { report } from "./report.js";
 import { configSchema } from "./config.js";
