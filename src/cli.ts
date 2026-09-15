@@ -4,7 +4,7 @@ import { configSchema } from "./config.js";
 import fs from "node:fs";
 import readline from "node:readline/promises";
 import path from "node:path";
-import { editPackageJson, isTrue } from "./packageJson.js";
+import { includetscInScriptStart, isTrue } from "./packageJson.js";
 
 const program = new Command();
 
@@ -54,13 +54,13 @@ program
         rl.close();
       } else {
         if (isTrue(runOnStartAnswer)) {
-          editPackageJson(pathAnswer || ".");
+          includetscInScriptStart(pathAnswer || ".");
         }
         fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
       }
     } else {
       if (isTrue(runOnStartAnswer)) {
-        editPackageJson(pathAnswer || ".");
+        includetscInScriptStart(pathAnswer || ".");
       }
       fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
     }
