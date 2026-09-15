@@ -60,6 +60,10 @@ export async function report(baseDir: string = process.cwd()) {
         const newEnvContent = missingEnvs
           .map((env) => `${env.env}=${resolveDefaults(env.env) || ""}`)
           .join("\n");
+
+
+
+          
         consoleCheckout(
           [
             {
