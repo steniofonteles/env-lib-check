@@ -58,7 +58,20 @@ export async function report(baseDir: string = process.cwd()) {
         ...libOnlyKeys.map((key) => `${key}=${libVars[key]}`),
       ].join("\n");
 
+      libOnlyKeys.forEach((variable) => {
+        const elementIndex = envs.findIndex((env) => env.env === variable);
+
+        if (elementIndex !== -1) {
+          const env = envs[elementIndex];
+
+          if (env) {
+            env.status = "ok";
+          }
+        }
+      });
+
       fs.writeFileSync(envPath || ".env", content);
+
       dotenvExist.exists = true;
     }
 
@@ -78,12 +91,19 @@ export async function report(baseDir: string = process.cwd()) {
           .map((env) => `${env.env}=${resolveDefaults(env.env) || ""}`)
           .join("\n");
 
-        envs.push({ env: newEnvContent, status: "ok" });
+        missingEnvs.forEach((variable) => {
+          const elementIndex = envs.findIndex((env)=> env.env === variable.env)
+          if(elementIndex !== -1){
+            const env = envs[elementIndex]
+            if(env){
+              env.status = "ok"
+            }
+          }
+        });
 
         fs.appendFileSync(envPath, `\n${newEnvContent}`);
       }
-
-      consoleCheckout(envs, baseDir);
     }
+    consoleCheckout(envs, baseDir);
   }
 }

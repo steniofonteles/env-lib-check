@@ -2,6 +2,6 @@
   "path": ".",
   "envPath": ".env",
   "runOnStart": false,
-  "createDotEnv": true,
-  "setVariablesNotFound": true
+  "createDotEnv": false,
+  "setVariablesNotFound": false
 }
