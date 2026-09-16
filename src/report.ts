@@ -52,24 +52,21 @@ export async function report(baseDir: string = process.cwd()) {
       const libs = getLibsInDependencie(baseDir) ?? [];
       const libVars = getVarsFromLibs(libs);
 
-      const scannedKeys = new Set(envs.map((env) => env.env));
-      const libOnlyKeys = Object.keys(libVars).filter(
-        (key) => !scannedKeys.has(key),
-      );
+      const libOnlyKeys = Object.keys(libVars);
 
       const content = [
-        ...envs.map((env) => `${env.env}=${libVars[env.env] ?? ""}`),
         ...libOnlyKeys.map((key) => `${key}=${libVars[key]}`),
       ].join("\n");
 
       fs.writeFileSync(envPath || ".env", content);
+      dotenvExist.exists = true;
     }
-    consoleCheckout(envs, baseDir);
 
-    if (config.setVariablesNotFound) {
+    if (config.setVariablesNotFound && dotenvExist.exists) {
       const envFileContent = dotenvExist.exists
         ? fs.readFileSync(envPath, "utf-8")
         : "";
+
       const existingKeys = new Set(
         envFileContent.split("\n").map((line) => line.split("=")[0]),
       );
@@ -81,17 +78,12 @@ export async function report(baseDir: string = process.cwd()) {
           .map((env) => `${env.env}=${resolveDefaults(env.env) || ""}`)
           .join("\n");
 
-        consoleCheckout(
-          [
-            {
-              env: `Missing variables added to .env: ${newEnvContent.split("\n").join(", ")}`,
-              status: "info",
-            },
-          ],
-          baseDir,
-        );
+        envs.push({ env: newEnvContent, status: "ok" });
+
         fs.appendFileSync(envPath, `\n${newEnvContent}`);
       }
+
+      consoleCheckout(envs, baseDir);
     }
   }
 }
