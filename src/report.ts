@@ -3,7 +3,8 @@ import { scanner } from "./scanner.js";
 import path from "node:path";
 import { consoleCheckout } from "./terminalConfig.js";
 import fs from "node:fs";
-import { resolveDefaults } from "./envsDefaults.js";
+import { resolveDefaults, getVarsFromLibs } from "./envsDefaults.js";
+import { getLibsInDependencie } from "./packageJson.js";
 
 export async function report(baseDir: string = process.cwd()) {
   const envPath = path.join(baseDir, ".env");
@@ -11,7 +12,15 @@ export async function report(baseDir: string = process.cwd()) {
   const configPath = fs.existsSync(`./env-lib-check.config.json`);
 
   if (!dotenvExist.exists && !configPath) {
-    consoleCheckout([{ env: `.env NOT FOUND AND env-lib-check.config.json NOT FOUND ${"\n\n" }RUN ELC INIT FOR GENERATE CONFIG`, status: "info" }], baseDir);
+    consoleCheckout(
+      [
+        {
+          env: `.env NOT FOUND AND env-lib-check.config.json NOT FOUND ${"\n\n"}RUN ELC INIT FOR GENERATE CONFIG`,
+          status: "info",
+        },
+      ],
+      baseDir,
+    );
     return;
   }
 
@@ -40,10 +49,20 @@ export async function report(baseDir: string = process.cwd()) {
     };
 
     if (config.createDotEnv && !dotenvExist.exists) {
-      fs.writeFileSync(
-        envPath || ".env",
-        envs.map((env) => `${env.env}=`).join("\n"),
+      const libs = getLibsInDependencie(baseDir) ?? [];
+      const libVars = getVarsFromLibs(libs);
+
+      const scannedKeys = new Set(envs.map((env) => env.env));
+      const libOnlyKeys = Object.keys(libVars).filter(
+        (key) => !scannedKeys.has(key),
       );
+
+      const content = [
+        ...envs.map((env) => `${env.env}=${libVars[env.env] ?? ""}`),
+        ...libOnlyKeys.map((key) => `${key}=${libVars[key]}`),
+      ].join("\n");
+
+      fs.writeFileSync(envPath || ".env", content);
     }
     consoleCheckout(envs, baseDir);
 
@@ -56,14 +75,12 @@ export async function report(baseDir: string = process.cwd()) {
       );
 
       const missingEnvs = envs.filter((env) => !existingKeys.has(env.env));
+
       if (missingEnvs.length > 0) {
         const newEnvContent = missingEnvs
           .map((env) => `${env.env}=${resolveDefaults(env.env) || ""}`)
           .join("\n");
 
-
-
-          
         consoleCheckout(
           [
             {

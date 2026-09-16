@@ -1,10 +1,19 @@
+import { getLibsInDependencie } from "./packageJson.js";
+
 type LibProfile = { packages: string[]; vars: Record<string, string> };
 
 export const libraryProfiles: LibProfile[] = [
-
-    // --- Databases --- sql 
+  // --- Databases --- sql
   {
-    packages: ["pg", "pg-promise", "@prisma/client", "typeorm", "sequelize", "knex", "postgres"],
+    packages: [
+      "pg",
+      "pg-promise",
+      "@prisma/client",
+      "typeorm",
+      "sequelize",
+      "knex",
+      "postgres",
+    ],
     vars: { DATABASE_URL: "postgresql://user:password@localhost:5432/dbname" },
   },
   {
@@ -17,7 +26,10 @@ export const libraryProfiles: LibProfile[] = [
   },
   {
     packages: ["mssql", "tedious"],
-    vars: { DATABASE_URL: "sqlserver://localhost:1433;database=dbname;user=sa;password=password" },
+    vars: {
+      DATABASE_URL:
+        "sqlserver://localhost:1433;database=dbname;user=sa;password=password",
+    },
   },
   {
     packages: ["oracledb"],
@@ -33,11 +45,17 @@ export const libraryProfiles: LibProfile[] = [
   },
   {
     packages: ["@libsql/client"],
-    vars: { TURSO_DATABASE_URL: "libsql://your-db.turso.io", TURSO_AUTH_TOKEN: "your-auth-token" },
+    vars: {
+      TURSO_DATABASE_URL: "libsql://your-db.turso.io",
+      TURSO_AUTH_TOKEN: "your-auth-token",
+    },
   },
   {
     packages: ["@neondatabase/serverless"],
-    vars: { DATABASE_URL: "postgresql://user:password@ep-example.us-east-2.aws.neon.tech/dbname" },
+    vars: {
+      DATABASE_URL:
+        "postgresql://user:password@ep-example.us-east-2.aws.neon.tech/dbname",
+    },
   },
 
   // --- NoSQL / key-value / cache ---
@@ -55,7 +73,10 @@ export const libraryProfiles: LibProfile[] = [
   },
   {
     packages: ["cassandra-driver"],
-    vars: { CASSANDRA_CONTACT_POINTS: "127.0.0.1", CASSANDRA_KEYSPACE: "your_keyspace" },
+    vars: {
+      CASSANDRA_CONTACT_POINTS: "127.0.0.1",
+      CASSANDRA_KEYSPACE: "your_keyspace",
+    },
   },
   {
     packages: ["@supabase/supabase-js"],
@@ -75,7 +96,10 @@ export const libraryProfiles: LibProfile[] = [
   },
   {
     packages: ["@upstash/redis"],
-    vars: { UPSTASH_REDIS_REST_URL: "https://your-instance.upstash.io", UPSTASH_REDIS_REST_TOKEN: "your-token" },
+    vars: {
+      UPSTASH_REDIS_REST_URL: "https://your-instance.upstash.io",
+      UPSTASH_REDIS_REST_TOKEN: "your-token",
+    },
   },
 
   // --- Auth ---
@@ -85,11 +109,17 @@ export const libraryProfiles: LibProfile[] = [
   },
   {
     packages: ["next-auth", "@auth/core"],
-    vars: { NEXTAUTH_URL: "http://localhost:3000", NEXTAUTH_SECRET: "your-random-secret" },
+    vars: {
+      NEXTAUTH_URL: "http://localhost:3000",
+      NEXTAUTH_SECRET: "your-random-secret",
+    },
   },
   {
     packages: ["passport", "passport-google-oauth20"],
-    vars: { GOOGLE_CLIENT_ID: "your-client-id", GOOGLE_CLIENT_SECRET: "your-client-secret" },
+    vars: {
+      GOOGLE_CLIENT_ID: "your-client-id",
+      GOOGLE_CLIENT_SECRET: "your-client-secret",
+    },
   },
   {
     packages: ["auth0", "@auth0/nextjs-auth0"],
@@ -101,7 +131,10 @@ export const libraryProfiles: LibProfile[] = [
   },
   {
     packages: ["@clerk/clerk-sdk-node", "@clerk/nextjs"],
-    vars: { CLERK_PUBLISHABLE_KEY: "pk_test_xxx", CLERK_SECRET_KEY: "sk_test_xxx" },
+    vars: {
+      CLERK_PUBLISHABLE_KEY: "pk_test_xxx",
+      CLERK_SECRET_KEY: "sk_test_xxx",
+    },
   },
   {
     packages: ["bcrypt", "bcryptjs"],
@@ -111,11 +144,17 @@ export const libraryProfiles: LibProfile[] = [
   // --- Payments ---
   {
     packages: ["stripe"],
-    vars: { STRIPE_SECRET_KEY: "sk_test_xxx", STRIPE_WEBHOOK_SECRET: "whsec_xxx" },
+    vars: {
+      STRIPE_SECRET_KEY: "sk_test_xxx",
+      STRIPE_WEBHOOK_SECRET: "whsec_xxx",
+    },
   },
   {
     packages: ["paypal-rest-sdk", "@paypal/checkout-server-sdk"],
-    vars: { PAYPAL_CLIENT_ID: "your-client-id", PAYPAL_CLIENT_SECRET: "your-client-secret" },
+    vars: {
+      PAYPAL_CLIENT_ID: "your-client-id",
+      PAYPAL_CLIENT_SECRET: "your-client-secret",
+    },
   },
   {
     packages: ["mercadopago"],
@@ -142,7 +181,10 @@ export const libraryProfiles: LibProfile[] = [
   },
   {
     packages: ["mailgun.js", "mailgun-js"],
-    vars: { MAILGUN_API_KEY: "your-api-key", MAILGUN_DOMAIN: "your-domain.com" },
+    vars: {
+      MAILGUN_API_KEY: "your-api-key",
+      MAILGUN_DOMAIN: "your-domain.com",
+    },
   },
   {
     packages: ["postmark"],
@@ -160,11 +202,17 @@ export const libraryProfiles: LibProfile[] = [
   },
   {
     packages: ["@slack/web-api", "@slack/bolt"],
-    vars: { SLACK_BOT_TOKEN: "xoxb-your-token", SLACK_SIGNING_SECRET: "your-signing-secret" },
+    vars: {
+      SLACK_BOT_TOKEN: "xoxb-your-token",
+      SLACK_SIGNING_SECRET: "your-signing-secret",
+    },
   },
   {
     packages: ["discord.js"],
-    vars: { DISCORD_BOT_TOKEN: "your-bot-token", DISCORD_CLIENT_ID: "your-client-id" },
+    vars: {
+      DISCORD_BOT_TOKEN: "your-bot-token",
+      DISCORD_CLIENT_ID: "your-client-id",
+    },
   },
   {
     packages: ["node-telegram-bot-api", "telegraf"],
@@ -181,7 +229,12 @@ export const libraryProfiles: LibProfile[] = [
 
   // --- Cloud storage / CDN ---
   {
-    packages: ["@aws-sdk/client-s3", "@aws-sdk/client-dynamodb", "@aws-sdk/client-sqs", "aws-sdk"],
+    packages: [
+      "@aws-sdk/client-s3",
+      "@aws-sdk/client-dynamodb",
+      "@aws-sdk/client-sqs",
+      "aws-sdk",
+    ],
     vars: {
       AWS_ACCESS_KEY_ID: "your-access-key-id",
       AWS_SECRET_ACCESS_KEY: "your-secret-access-key",
@@ -190,25 +243,41 @@ export const libraryProfiles: LibProfile[] = [
   },
   {
     packages: ["cloudinary"],
-    vars: { CLOUDINARY_CLOUD_NAME: "your-cloud-name", CLOUDINARY_API_KEY: "your-api-key", CLOUDINARY_API_SECRET: "your-api-secret" },
+    vars: {
+      CLOUDINARY_CLOUD_NAME: "your-cloud-name",
+      CLOUDINARY_API_KEY: "your-api-key",
+      CLOUDINARY_API_SECRET: "your-api-secret",
+    },
   },
   {
     packages: ["@google-cloud/storage"],
-    vars: { GOOGLE_CLOUD_PROJECT_ID: "your-project-id", GOOGLE_APPLICATION_CREDENTIALS: "./service-account.json" },
+    vars: {
+      GOOGLE_CLOUD_PROJECT_ID: "your-project-id",
+      GOOGLE_APPLICATION_CREDENTIALS: "./service-account.json",
+    },
   },
   {
     packages: ["@azure/storage-blob"],
-    vars: { AZURE_STORAGE_CONNECTION_STRING: "DefaultEndpointsProtocol=https;AccountName=xxx;AccountKey=xxx;EndpointSuffix=core.windows.net" },
+    vars: {
+      AZURE_STORAGE_CONNECTION_STRING:
+        "DefaultEndpointsProtocol=https;AccountName=xxx;AccountKey=xxx;EndpointSuffix=core.windows.net",
+    },
   },
   {
     packages: ["uploadthing", "@uploadthing/react"],
-    vars: { UPLOADTHING_SECRET: "sk_live_xxx", UPLOADTHING_APP_ID: "your-app-id" },
+    vars: {
+      UPLOADTHING_SECRET: "sk_live_xxx",
+      UPLOADTHING_APP_ID: "your-app-id",
+    },
   },
 
   // --- Search ---
   {
     packages: ["@elastic/elasticsearch"],
-    vars: { ELASTICSEARCH_URL: "http://localhost:9200", ELASTICSEARCH_API_KEY: "your-api-key" },
+    vars: {
+      ELASTICSEARCH_URL: "http://localhost:9200",
+      ELASTICSEARCH_API_KEY: "your-api-key",
+    },
   },
   {
     packages: ["algoliasearch"],
@@ -216,11 +285,18 @@ export const libraryProfiles: LibProfile[] = [
   },
   {
     packages: ["meilisearch"],
-    vars: { MEILISEARCH_HOST: "http://localhost:7700", MEILISEARCH_API_KEY: "your-master-key" },
+    vars: {
+      MEILISEARCH_HOST: "http://localhost:7700",
+      MEILISEARCH_API_KEY: "your-master-key",
+    },
   },
   {
     packages: ["typesense"],
-    vars: { TYPESENSE_HOST: "localhost", TYPESENSE_PORT: "8108", TYPESENSE_API_KEY: "your-api-key" },
+    vars: {
+      TYPESENSE_HOST: "localhost",
+      TYPESENSE_PORT: "8108",
+      TYPESENSE_API_KEY: "your-api-key",
+    },
   },
 
   // --- Monitoring / logging / analytics ---
@@ -234,11 +310,17 @@ export const libraryProfiles: LibProfile[] = [
   },
   {
     packages: ["newrelic"],
-    vars: { NEW_RELIC_LICENSE_KEY: "your-license-key", NEW_RELIC_APP_NAME: "your-app-name" },
+    vars: {
+      NEW_RELIC_LICENSE_KEY: "your-license-key",
+      NEW_RELIC_APP_NAME: "your-app-name",
+    },
   },
   {
     packages: ["posthog-node", "posthog-js"],
-    vars: { POSTHOG_API_KEY: "phc_your_key", POSTHOG_HOST: "https://app.posthog.com" },
+    vars: {
+      POSTHOG_API_KEY: "phc_your_key",
+      POSTHOG_HOST: "https://app.posthog.com",
+    },
   },
   {
     packages: ["mixpanel"],
@@ -280,7 +362,10 @@ export const libraryProfiles: LibProfile[] = [
   },
   {
     packages: ["pinecone-client", "@pinecone-database/pinecone"],
-    vars: { PINECONE_API_KEY: "your-api-key", PINECONE_ENVIRONMENT: "us-east-1-aws" },
+    vars: {
+      PINECONE_API_KEY: "your-api-key",
+      PINECONE_ENVIRONMENT: "us-east-1-aws",
+    },
   },
 
   // --- Maps / geo ---
@@ -328,11 +413,17 @@ export const libraryProfiles: LibProfile[] = [
   },
   {
     packages: ["unleash-client"],
-    vars: { UNLEASH_URL: "http://localhost:4242/api", UNLEASH_API_TOKEN: "your-api-token" },
+    vars: {
+      UNLEASH_URL: "http://localhost:4242/api",
+      UNLEASH_API_TOKEN: "your-api-token",
+    },
   },
   {
     packages: ["recaptcha2", "react-google-recaptcha"],
-    vars: { RECAPTCHA_SITE_KEY: "your-site-key", RECAPTCHA_SECRET_KEY: "your-secret-key" },
+    vars: {
+      RECAPTCHA_SITE_KEY: "your-site-key",
+      RECAPTCHA_SECRET_KEY: "your-secret-key",
+    },
   },
 ];
 
@@ -345,3 +436,28 @@ export function resolveDefaults(envKey: string): string | undefined {
   return undefined;
 }
 
+export function getVarsFromLibs(libs: string[]): Record<string, string> {
+  const vars: Record<string, string> = {};
+
+  for (const profile of libraryProfiles) {
+    const isInstalled = profile.packages.some((pkg) => libs.includes(pkg));
+    if (!isInstalled) continue;
+
+    Object.assign(vars, profile.vars);
+  }
+
+  return vars;
+}
+
+export function resolveDefaultsFromLibs(envsInPackage: string[]): Record<string, string> {
+  const result: Record<string, string> = {};
+
+  for (const key of envsInPackage) {
+    const library = libraryProfiles.find((item) => item.packages.includes(key));
+    if (!library) continue;
+
+    Object.assign(result, library.vars);
+  }
+
+  return result;
+}
