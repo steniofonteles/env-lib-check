@@ -36,13 +36,12 @@ program
       `Set variables not found in .env file? (y/n, default: n): `,
     );
 
-
     const config = configSchema.parse({
       path: pathAnswer || ".",
       envPath: envPathAnswer || ".env",
-      runOnStart: isTrue(runOnStartAnswer) ? true : false || false,
-      createDotEnv: isTrue(runCreateDotEnv) ? true : false || false,
-      setVariablesNotFound: isTrue(setVariablesNotFound) ? true : false || false
+      runOnStart: isTrue(runOnStartAnswer),
+      createDotEnv: isTrue(runCreateDotEnv),
+      setVariablesNotFound: isTrue(setVariablesNotFound),
     });
 
     if (fs.existsSync(configPath)) {

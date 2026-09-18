@@ -22,17 +22,6 @@ export async function report(baseDir: string = process.cwd()) {
       baseDir,
     );
     return;
-  } else if (!dotenvExist.exists) {
-    consoleCheckout(
-      [
-        {
-          env: `.env NOT FOUND`,
-          status: "info",
-        },
-      ],
-      baseDir,
-    );
-    return;
   }
 
   const allEnvs = scanner(baseDir);
@@ -102,17 +91,21 @@ export async function report(baseDir: string = process.cwd()) {
           .map((env) => `${env.env}=${resolveDefaults(env.env) || ""}`)
           .join("\n");
 
+        fs.appendFileSync(envPath, `\n${newEnvContent}`);
+
         missingEnvs.forEach((variable) => {
-          const elementIndex = envs.findIndex((env) => env.env === variable.env)
+          const elementIndex = envs.findIndex(
+            (env) =>
+              env.env === variable.env && !!resolveDefaults(variable.env),
+          );
+
           if (elementIndex !== -1) {
-            const env = envs[elementIndex]
+            const env = envs[elementIndex];
             if (env) {
-              env.status = "ok"
+              env.status = "ok";
             }
           }
         });
-
-        fs.appendFileSync(envPath, `\n${newEnvContent}`);
       }
     }
   }

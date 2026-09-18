@@ -20,7 +20,7 @@ function foundPackageJson(baseDir: string) {
 
 export function includetscInScriptStart(baseDir: string) {
   const currentPackageJson = foundPackageJson(baseDir);
-  if (!currentPackageJson.scripts) {
+  if (!currentPackageJson || !currentPackageJson.scripts) {
     consoleCheckout(
       [{ env: "SCRIPT START COMAND NOT FOUNT IN PACKAGE ❌", status: "info" }],
       baseDir,
@@ -54,22 +54,16 @@ export function includetscInScriptStart(baseDir: string) {
 
 export function getLibsInDependencie(baseDir: string): string[] | undefined {
   const currentPackageJson = foundPackageJson(baseDir);
-  if (!currentPackageJson.scripts) {
-    consoleCheckout(
-      [{ env: "SCRIPT START COMAND NOT FOUNT IN PACKAGE ❌", status: "info" }],
-      baseDir,
-    );
-    return;
-  }
-  const dependencies = currentPackageJson.dependencies;
 
-  if (!dependencies) {
+  if (!currentPackageJson || !currentPackageJson.dependencies) {
     consoleCheckout(
       [{ env: "DEPENDENCIES NOT FOUND IN PACKAGE.JSON ❌", status: "info" }],
       baseDir,
     );
     return;
   }
+  const dependencies = currentPackageJson.dependencies;
+
 
   const keys = Object.keys(dependencies);
   return keys;

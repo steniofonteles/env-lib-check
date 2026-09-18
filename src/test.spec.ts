@@ -34,10 +34,6 @@ describe("Report", () => {
           ".env NOT FOUND AND env-lib-check.config.json NOT FOUND",
         ),
       );
-    } else if (!envFile) {
-      expect(consoleSpy).toHaveBeenCalledWith(
-        expect.stringContaining(".env NOT FOUND"),
-      );
     }
   });
 
