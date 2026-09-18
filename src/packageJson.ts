@@ -22,7 +22,7 @@ export function includetscInScriptStart(baseDir: string) {
   const currentPackageJson = foundPackageJson(baseDir);
   if (!currentPackageJson || !currentPackageJson.scripts) {
     consoleCheckout(
-      [{ env: "SCRIPT START COMAND NOT FOUNT IN PACKAGE ❌", status: "info" }],
+      [{ env: "SCRIPT START COMMAND NOT FOUND IN PACKAGE ❌", status: "info" }],
       baseDir,
     );
     return;
@@ -30,7 +30,7 @@ export function includetscInScriptStart(baseDir: string) {
   const startScript = currentPackageJson.scripts?.start;
   if (!startScript) {
     consoleCheckout(
-      [{ env: "START COMAND NOT FOUNT ❌", status: "info" }],
+      [{ env: "START COMMAND NOT FOUND ❌", status: "info" }],
       baseDir,
     );
     return;
@@ -38,7 +38,7 @@ export function includetscInScriptStart(baseDir: string) {
 
   if (startScript.includes("elc")) {
     consoleCheckout(
-      [{ env: "COMAND ALREDY INCLUDE ❌", status: "info" }],
+      [{ env: "COMMAND ALREADY INCLUDE ❌", status: "info" }],
       baseDir,
     );
     return;
