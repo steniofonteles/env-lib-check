@@ -447,16 +447,3 @@ export function getVarsFromLibs(libs: string[]): Record<string, string> {
 
   return vars;
 }
-
-export function resolveDefaultsFromLibs(envsInPackage: string[]): Record<string, string> {
-  const result: Record<string, string> = {};
-
-  for (const key of envsInPackage) {
-    const library = libraryProfiles.find((item) => item.packages.includes(key));
-    if (!library) continue;
-
-    Object.assign(result, library.vars);
-  }
-
-  return result;
-}
