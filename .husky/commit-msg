@@ -1,0 +1,24 @@
+commit_msg=$(cat "$1")
+
+if ! echo "$commit_msg" | grep -qE '^(feat|fix|test|docs|refactor|chore|perf|style|build|ci): '; then
+  echo ""
+  echo "❌ Commit inválido!"
+  echo ""
+  echo "O commit precisa começar com um prefixo:"
+  echo ""
+  echo "  feat:      nova funcionalidade"
+  echo "  fix:       correção"
+  echo "  test:      testes"
+  echo "  docs:      documentação"
+  echo "  refactor:  refatoração"
+  echo "  chore:     manutenção"
+  echo "  perf:      performance"
+  echo "  style:     formatação"
+  echo "  build:     build"
+  echo "  ci:        CI/CD"
+  echo ""
+  echo "Exemplo:"
+  echo "  feat: adiciona suporte ao postgres"
+  echo ""
+  exit 1
+fi
