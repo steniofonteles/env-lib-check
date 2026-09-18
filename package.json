@@ -1,6 +1,6 @@
 {
   "name": "env-lib-check",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "CLI that scans your codebase for process.env usage and warns about missing or empty environment variables before they become a production bug.",
   "main": "./dist/cli.js",
   "scripts": {

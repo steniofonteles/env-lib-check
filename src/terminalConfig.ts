@@ -6,7 +6,7 @@ export function consoleCheckout(
 ) {
 
   if(logs[0]?.status !== "info"){
-    console.log(pc.bold(pc.cyan("env-lib-check")) + " v1.0.0");
+    console.log(pc.bold(pc.cyan("env-lib-check")) + " v0.7.0");
     console.log(`Scanning: ${baseDir}`);
   }
   console.log("");
