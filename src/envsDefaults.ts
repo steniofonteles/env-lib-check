@@ -1,4 +1,3 @@
-import { getLibsInDependencie } from "./packageJson.js";
 
 type LibProfile = { packages: string[]; vars: Record<string, string> };
 

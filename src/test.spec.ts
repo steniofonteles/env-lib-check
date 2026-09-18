@@ -38,7 +38,6 @@ describe("Report", () => {
     }
   })
 
-
   it("Should inform that TEST_ENV is correct", () => {
     const fd = fs.openSync(".env", "w");
     fs.fchmodSync(fd, 0o644);
@@ -58,4 +57,6 @@ describe("Report", () => {
       expect.stringContaining("TEST_ENV NOT FOUND IN .ENV"),
     );
   });
+
+  
 });
