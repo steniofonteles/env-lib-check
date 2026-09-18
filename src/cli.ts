@@ -11,8 +11,13 @@ const program = new Command();
 program
   .name("elc")
   .description("Environment variables checker")
-  .action((options) => {
-    report(options.path);
+  .action(async (options) => {
+    const envs = await report(options.path);
+    const hasError = !envs || envs.some((env) => env.status === "error");
+
+    if (hasError) {
+      process.exitCode = 1;
+    }
   });
 
 program

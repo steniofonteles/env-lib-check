@@ -7,9 +7,24 @@ import { resolveDefaults, getVarsFromLibs } from "./envsDefaults.js";
 import { getLibsInDependencie } from "./packageJson.js";
 
 export async function report(baseDir: string = process.cwd()) {
-  const envPath = path.join(baseDir, ".env");
+  const configFilePath = path.join(process.cwd(), "env-lib-check.config.json");
+  const configPath = fs.existsSync(configFilePath);
+
+  const config = configPath
+    ? (JSON.parse(fs.readFileSync(configFilePath, "utf-8")) as {
+        path?: string;
+        envPath?: string;
+        createDotEnv: boolean;
+        setVariablesNotFound: boolean;
+      })
+    : undefined;
+
+  const resolvedBaseDir = config?.path
+    ? path.resolve(process.cwd(), config.path)
+    : baseDir;
+  const envPath = path.join(resolvedBaseDir, config?.envPath ?? ".env");
+
   const dotenvExist = readEnvFile(envPath);
-  const configPath = fs.existsSync(`./env-lib-check.config.json`);
 
   if (!dotenvExist.exists && !configPath) {
     consoleCheckout(
@@ -19,12 +34,12 @@ export async function report(baseDir: string = process.cwd()) {
           status: "info",
         },
       ],
-      baseDir,
+      resolvedBaseDir,
     );
     return;
   }
 
-  const allEnvs = scanner(baseDir);
+  const allEnvs = scanner(resolvedBaseDir);
   const envs = [] as {
     env: string;
     status: "ok" | "warn" | "error" | "info";
@@ -41,44 +56,33 @@ export async function report(baseDir: string = process.cwd()) {
     }
   });
 
-  if (configPath) {
-    const file = fs.readFileSync(`./env-lib-check.config.json`, "utf-8");
-    const config = JSON.parse(file) as {
-      createDotEnv: boolean;
-      setVariablesNotFound: boolean;
-    };
-
+  if (config) {
     if (config.createDotEnv && !dotenvExist.exists) {
-      const libs = getLibsInDependencie(baseDir) ?? [];
+      const libs = getLibsInDependencie(resolvedBaseDir) ?? [];
       const libVars = getVarsFromLibs(libs);
 
       const libOnlyKeys = Object.keys(libVars);
 
-      const content = [
-        ...libOnlyKeys.map((key) => `${key}=${libVars[key]}`),
-      ].join("\n");
+      const content = libOnlyKeys
+        .map((key) => `${key}=${libVars[key]}`)
+        .join("\n");
 
       libOnlyKeys.forEach((variable) => {
         const elementIndex = envs.findIndex((env) => env.env === variable);
-
         if (elementIndex !== -1) {
           const env = envs[elementIndex];
-
           if (env) {
             env.status = "ok";
           }
         }
       });
 
-      fs.writeFileSync(envPath || ".env", content);
-
+      fs.writeFileSync(envPath, content);
       dotenvExist.exists = true;
     }
 
     if (config.setVariablesNotFound && dotenvExist.exists) {
-      const envFileContent = dotenvExist.exists
-        ? fs.readFileSync(envPath, "utf-8")
-        : "";
+      const envFileContent = fs.readFileSync(envPath, "utf-8");
 
       const existingKeys = new Set(
         envFileContent.split("\n").map((line) => line.split("=")[0]),
@@ -98,7 +102,6 @@ export async function report(baseDir: string = process.cwd()) {
             (env) =>
               env.env === variable.env && !!resolveDefaults(variable.env),
           );
-
           if (elementIndex !== -1) {
             const env = envs[elementIndex];
             if (env) {
@@ -109,5 +112,7 @@ export async function report(baseDir: string = process.cwd()) {
       }
     }
   }
-  consoleCheckout(envs, baseDir);
+
+  consoleCheckout(envs, resolvedBaseDir);
+  return envs;
 }
