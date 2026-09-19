@@ -11,7 +11,22 @@
     "prepublishOnly": "npm run build",
     "prepare": "husky"
   },
-  "keywords": [],
+  "keywords": [
+    "env",
+    "environment-variable",
+    "environment-variables",
+    "dotenv",
+    "env-validator",
+    "env-checker",
+    "env-security",
+    "secret-scanner",
+    "git-secrets",
+    "git-security",
+    "secret-detection",
+    "credentials",
+    "api-key",
+    "process.env"
+  ],
   "author": "Stênio Sousa Fonteles",
   "license": "ISC",
   "type": "module",
