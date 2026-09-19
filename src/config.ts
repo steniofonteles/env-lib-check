@@ -6,6 +6,7 @@ export const configSchema = z.object({
   runOnStart: z.boolean().default(false),
   createDotEnv: z.boolean().default(false),
   setVariablesNotFound: z.boolean().default(false),
-}); 
+  LeakDetection: z.boolean().default(false),
+});
 
-export type Config = z.infer<typeof configSchema>
+export type Config = z.infer<typeof configSchema>;

@@ -1,5 +1,5 @@
 import { readEnvFile } from "./envFile.js";
-import { scanner } from "./scanner.js";
+import { scanCommitsWithSimpleGit, scanner } from "./scanner.js";
 import path from "node:path";
 import { consoleCheckout } from "./terminalConfig.js";
 import fs from "node:fs";
@@ -16,6 +16,7 @@ export async function report(baseDir: string = process.cwd()) {
         envPath?: string;
         createDotEnv: boolean;
         setVariablesNotFound: boolean;
+        LeakDetection: boolean;
       })
     : undefined;
 
@@ -110,6 +111,27 @@ export async function report(baseDir: string = process.cwd()) {
           }
         });
       }
+    }
+
+    if (config.LeakDetection) {
+      const isLeak = await scanCommitsWithSimpleGit(process.cwd());
+      if (isLeak.length > 0) {
+        consoleCheckout(
+          isLeak.map((leak) => {
+            return {
+              env: `hash: ${leak.hash}, message:${leak.message}, author:${leak.author}, date:$ {leak.date}`,
+              status: "error",
+            };
+          }),
+          resolvedBaseDir,
+        );
+        return;
+      }
+
+      envs.push({
+        env: "NO VARIABLES LEAK WAS FOUND",
+        status: "info",
+      });
     }
   }
 

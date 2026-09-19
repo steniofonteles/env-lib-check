@@ -31,6 +31,9 @@ program
     const configPath = path.join(process.cwd(), "env-lib-check.config.json");
     const pathAnswer = await rl.question(`Project folder (default: .): `);
     const envPathAnswer = await rl.question(`Path to .env (default: .env):`);
+    const LeakDetection = await rl.question(
+      `Do variable leak detection?? (y/n, default: n): `,
+    );
     const runOnStartAnswer = await rl.question(
       `Run at application startup? (y/n, default: n): `,
     );
@@ -47,6 +50,7 @@ program
       runOnStart: isTrue(runOnStartAnswer),
       createDotEnv: isTrue(runCreateDotEnv),
       setVariablesNotFound: isTrue(setVariablesNotFound),
+      LeakDetection: isTrue(LeakDetection),
     });
 
     if (fs.existsSync(configPath)) {
