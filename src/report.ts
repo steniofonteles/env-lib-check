@@ -7,7 +7,7 @@ import { resolveDefaults, getVarsFromLibs } from "./envsDefaults.js";
 import { getLibsInDependencie } from "./packageJson.js";
 
 export async function report(baseDir: string = process.cwd()) {
-  const configFilePath = path.join(process.cwd(), "env-lib-check.config.json");
+  const configFilePath = path.join(baseDir, "env-lib-check.config.json");
   const configPath = fs.existsSync(configFilePath);
 
   const config = configPath
@@ -21,7 +21,7 @@ export async function report(baseDir: string = process.cwd()) {
     : undefined;
 
   const resolvedBaseDir = config?.path
-    ? path.resolve(process.cwd(), config.path)
+    ? path.resolve(baseDir, config.path)
     : baseDir;
   const envPath = path.join(resolvedBaseDir, config?.envPath ?? ".env");
 
@@ -114,7 +114,7 @@ export async function report(baseDir: string = process.cwd()) {
     }
 
     if (config.LeakDetection) {
-      const isLeak = await scanCommitsWithSimpleGit(process.cwd());
+      const isLeak = await scanCommitsWithSimpleGit(resolvedBaseDir);
       if (isLeak.length > 0) {
         consoleCheckout(
           isLeak.map((leak) => {
