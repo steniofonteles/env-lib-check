@@ -16,7 +16,7 @@ export async function report(baseDir: string = process.cwd()) {
         envPath?: string;
         createDotEnv: boolean;
         setVariablesNotFound: boolean;
-        leakDetection: boolean;
+        LeakDetection: boolean;
       })
     : undefined;
 
@@ -113,7 +113,7 @@ export async function report(baseDir: string = process.cwd()) {
       }
     }
 
-    if (config.leakDetection) {
+    if (config.LeakDetection) {
       const isLeak = await scanCommitsWithSimpleGit(process.cwd());
       if (isLeak.length > 0) {
         consoleCheckout(
